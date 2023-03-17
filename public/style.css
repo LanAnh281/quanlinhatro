@@ -1,0 +1,42 @@
+:root{
+    --primary-color:#dcdcdc;
+    
+}
+.header ,.footer{
+    width: 100%;
+    
+}
+.header{
+    height: 240px;
+    background-image: url(../img/header.PNG);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.footer{
+    height: 200px;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--primary-color);
+    align-items: center;
+}
+.header_img,.footer_img{
+    height: 70%;
+    object-fit: cotain;
+    margin: 35px 15px; 
+}
+.footer_content,.footer_img{
+    margin: 0 25px;
+}
+.footer_img{
+    height: 50%; 
+}
+.carousel-item {
+    height: 400px !important;
+    width: 100%;
+}
+
+.carousel-item_img{
+    height: 100%;
+    object-fit: contain;
+}
