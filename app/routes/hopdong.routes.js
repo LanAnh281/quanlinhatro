@@ -3,6 +3,8 @@ const router=express.Router();
 const hopdong=require('../controllers/hopdong.controller');
 
 router.route('/')
-        .get(hopdong.layDSHD);
-        
+        .get(hopdong.layDSHD)
+        .post(hopdong.themHD);
+
+
 module.exports=router;

@@ -97,23 +97,20 @@ create table PHIEUTHU(
     ngaythu date,
     foreign key (mahd) references HOADON(mahd)
 );
-create table thoigianthue(
-	ngaybd date,
-    ngaykt date,
-    primary key (ngaybd)
-);
 
 create table HOPDONG(
 	mahd int primary key auto_increment ,
-    ngaybd date not null,
-    ngaykt date not null,
     maphong int,
     stt_tk int,
-    matkkhach varchar(10),
-    foreign key (ngaybd) references thoigianthue(ngaybd),
+    stt_tro int,
+    ngaybd date,
+    ngaykt date,
     foreign key  (maphong) references phong(maphong),
-    foreign key  (stt_tk) references khachhang(stt)
+    foreign key  (stt_tk) references khachhang(stt),
+    foreign key  (stt_tro) references nhatro(stt)
+    
 );
+
 
 create table PHIEUGIAHAN(
 	maphieu int auto_increment primary key,
