@@ -115,9 +115,9 @@ create table HOPDONG(
 create table PHIEUGIAHAN(
 	maphieu int auto_increment primary key,
     stt_kh int,
-    matk varchar(10),
     ngaybd date not null,
     ngaykt date not null, 
     foreign key (stt_kh) references khachhang(stt)
 );
+
 
