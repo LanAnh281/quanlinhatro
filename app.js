@@ -8,6 +8,7 @@ const routetaikhoan=require('./app/routes/taikhoan.routes');
 const routenhatro=require('./app/routes/nhatro.routes');
 const routephieugiahan= require('./app/routes/phieugiahan.routes');
 const routedien_nuoc=require('./app/routes/dien_nuoc.routes');
+const routephong=require('./app/routes/phong.routes');
 
 const ApiError=require('./app/api_error');
 var app = express();
@@ -22,4 +23,5 @@ app.use('/api/taikhoan',routetaikhoan);
 app.use('/api/nhatro',routenhatro);
 app.use('/api/phieugiahan',routephieugiahan);
 app.use('/api/diennuoc',routedien_nuoc);
+app.use('/api/phong',routephong);
 module.exports=app;

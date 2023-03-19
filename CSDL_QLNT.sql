@@ -71,13 +71,12 @@ create table GIADIEN_NUOC(
 alter table giadien_nuoc modify thoidiem datetime;
 create table DIEN_NUOC (
 	maphong varchar(3),
-    matbdien varchar(30),
-    matbnuoc varchar(30),
+	thoigianghi date,
     dienchisocu int,
     dienchisomoi int, 
     nuocchisocu int,
     nuocchisomoi int,
-	primary key (maphong,matbdien,matbnuoc,dienchisocu)
+	primary key (maphong,thoigianghi)
 );
 
 create table HOADON(
@@ -119,5 +118,7 @@ create table PHIEUGIAHAN(
     ngaykt date not null, 
     foreign key (stt_kh) references khachhang(stt)
 );
+alter table phieugiahan add column trangthai char(1);
+
 
 
