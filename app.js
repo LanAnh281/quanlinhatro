@@ -7,6 +7,7 @@ const routehopdong=require('./app/routes/hopdong.routes');
 const routetaikhoan=require('./app/routes/taikhoan.routes');
 const routenhatro=require('./app/routes/nhatro.routes');
 const routephieugiahan= require('./app/routes/phieugiahan.routes');
+const routedien_nuoc=require('./app/routes/dien_nuoc.routes');
 
 const ApiError=require('./app/api_error');
 var app = express();
@@ -20,4 +21,5 @@ app.use('/api/hopdong',routehopdong);
 app.use('/api/taikhoan',routetaikhoan);
 app.use('/api/nhatro',routenhatro);
 app.use('/api/phieugiahan',routephieugiahan);
+app.use('/api/diennuoc',routedien_nuoc);
 module.exports=app;
