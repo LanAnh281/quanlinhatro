@@ -77,16 +77,4 @@ exports.chinhsuaTK = (req, res, next) => {
   }
 };
 
-//xóa 1 tài khoản
-exports.xoaTK = (req, res, next) => {
-  let xoaTK =
-    "UPDATE `qlnhatro`.`taikhoan` SET  `handung` = '0' WHERE (`STT` = ?);";
-  try {
-    con.query(xoaTK, req.params.sotk, function (err, result, fields) {
-      if (err) throw err.stack;
-      return res.send("xóa tài khoản khách hàng thành công");
-    });
-  } catch (error) {
-    return new ApiError(500, "Kết nối với tài khoản thất bại");
-  }
-};
+
