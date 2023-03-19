@@ -1,5 +1,6 @@
 const ApiError = require("../api_error");
 const con = require("../util/mysql.util");
+
 //Lấy ds khách hàng
 exports.layTK = (req, res, next) => {
   let myquery =
@@ -38,6 +39,19 @@ exports.taoTK = (req, res, next) => {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
+//Lấy chi tiết của 1 tài khoản
+exports.lay1TK = (req, res, next) => {
+  let myquery = 'call hiends("khachhang")';
+  let sotk = req.params.sotk;
+  try {
+    con.query(myquery, sotk, function (err, result, fields) {
+      if (err) throw err.stack;
+      return res.send(result[0]);
+    });
+  } catch (error) {
+    return new ApiError(500, "Kết nối với tài khoản thất bại");
+  }
+};
 // chỉnh sửa 1 tài khoản
 exports.chinhsuaTK = (req, res, next) => {
   let chinhsuaTK =
@@ -67,26 +81,12 @@ exports.chinhsuaTK = (req, res, next) => {
 exports.xoaTK = (req, res, next) => {
   let xoaTK =
     "UPDATE `qlnhatro`.`taikhoan` SET  `handung` = '0' WHERE (`STT` = ?);";
-  let kthopdong =
-    "select ngaykt from hopdong where mahd=(select max(mahd) from hopdong where stt_tk=?);";
-  const today = new Date();
-  const date =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-
   try {
-    con.query(kthopdong, req.params.sotk, function (err, result, fields) {
+    con.query(xoaTK, req.params.sotk, function (err, result, fields) {
       if (err) throw err.stack;
-      else if (date >= Object.values(result)) {
-        con.query(xoaTK, req.params.sotk, function (err, result, fields) {
-          if (err) throw err.stack;
-          return res.send("xóa tài khoản khách hàng thành công");
-        });
-      }
+      return res.send("xóa tài khoản khách hàng thành công");
     });
   } catch (error) {
-        return new ApiError(500, "Kết nối với tài khoản thất bại");
+    return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
-//Lấy chi tiết của 1 tài khoản
-
-

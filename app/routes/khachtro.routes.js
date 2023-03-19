@@ -6,6 +6,7 @@ router.route('/')
             .get(taikhoan.layTK)
             .post(taikhoan.taoTK);
 router.route('/:sotk')
+            .get(taikhoan.lay1TK)
             .put(taikhoan.chinhsuaTK)
             .delete(taikhoan.xoaTK);
             
