@@ -52,7 +52,7 @@ exports.lay1TK = (req, res, next) => {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
-// chỉnh sửa 1 tài khoản
+// chỉnh sửa 1  khach tro
 exports.chinhsuaTK = (req, res, next) => {
   let chinhsuaTK =
     "UPDATE `qlnhatro`.`khachhang` SET `sdt`=?, `cccd` = ?, `hoten` = ?, `nghenghiep` = ?, `quequan` = ? WHERE (`STT` = ?);";
