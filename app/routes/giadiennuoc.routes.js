@@ -1,6 +1,6 @@
 const express=require('express');
 const router= express.Router();
-const dien_nuoc= require('../controllers/dien_nuoc.controller');
+const dien_nuoc= require('../controllers/giadiennuoc.controller');
 
 router.route('/')
         .get(dien_nuoc.layTT)

@@ -7,7 +7,7 @@ const routehopdong=require('./app/routes/hopdong.routes');
 const routetaikhoan=require('./app/routes/taikhoan.routes');
 const routenhatro=require('./app/routes/nhatro.routes');
 const routephieugiahan= require('./app/routes/phieugiahan.routes');
-const routedien_nuoc=require('./app/routes/dien_nuoc.routes');
+const routedien_nuoc=require('./app/routes/giadiennuoc.routes');
 const routephong=require('./app/routes/phong.routes');
 
 const ApiError=require('./app/api_error');
