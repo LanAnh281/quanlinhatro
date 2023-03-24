@@ -89,7 +89,7 @@ create table HOADON(
     primary key(mahd)
 );
 alter table hoadon add column trangthai varchar (30) not null;
-
+alter table hoadon add column nam int ;
 create table PHIEUTHU(
 	mapt int auto_increment primary key,
     mahd int,

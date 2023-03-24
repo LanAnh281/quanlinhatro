@@ -11,6 +11,7 @@ const routegiadiennuoc=require('./app/routes/giadiennuoc.routes');
 const routephong=require('./app/routes/phong.routes');
 const routediennuoc=require('./app/routes/diennuoc.routes');
 const routehoadon=require('./app/routes/hoadon.routes');
+const routephieuthu=require('./app/routes/phieuthu.routes')
 
 const ApiError=require('./app/api_error');
 var app = express();
@@ -28,5 +29,6 @@ app.use('/api/diennuoc',routegiadiennuoc);
 app.use('/api/phong',routephong);
 app.use('/api/ghidiennuoc',routediennuoc);
 app.use('/api/hoadon',routehoadon);
+app.use('/api/phieuthu',routephieuthu);
 
 module.exports=app;

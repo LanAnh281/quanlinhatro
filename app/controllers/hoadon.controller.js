@@ -41,12 +41,14 @@ exports.layDSHD = (req, res, next) => {
 //tạo hóa đơn cho 1 phòng
 exports.taoHD = (req, res, next) => {
   let themHD =
-    "INSERT INTO `qlnhatro`.`hoadon` (`thang`, `maphong`, `tongtien`, `trangthai`) VALUES (?, ?, ?, 'chưa thanh toán');";
+    "INSERT INTO `qlnhatro`.`hoadon` (`thang`, `maphong`, `tongtien`, `trangthai`,`nam` ) VALUES (?, ?, ?, 'chưa thanh toán',?);";
+  var today= new Date;
+
   try {
     if (req.query.maphong) {
       con.query(
         themHD,
-        [req.body.thang, req.query.maphong, req.body.tongtien],
+        [today.getMonth()+1, req.query.maphong, req.body.tongtien,today.getFullYear()],
         function (err, result, filters) {
           if (err) throw err.stack;
           return res.send("Tạo thành công hóa đơn");
@@ -70,7 +72,9 @@ exports.taoHD = (req, res, next) => {
 exports.chinhsuaHDTheoKHTheoThang = (req, res, next) => {
   let myquery =
     "UPDATE `qlnhatro`.`hoadon` SET `thang` = ?, `maphong` = ?, `tongtien` = ?, `trangthai` =? WHERE (`mahd` = ?);";
-  try {
+    
+
+    try {
     con.query(
       myquery,
       [
