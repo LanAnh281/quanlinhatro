@@ -13,45 +13,55 @@ exports.layTK = (req, res, next) => {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
+//Lấy chi tiết của 1 tài khoản
+exports.lay1TK = (req, res, next) => {
+  let myquery =
+    "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0' and kh.stt=?;";
+  try {
+    con.query(myquery, req.params.sotk,function (err, result) {
+      return res.send(result);
+    });
+  } catch (error) {
+    return new ApiError(500, "Kết nối với tài khoản thất bại");
+  }
+};
 // tạo tài khoản khách trọ
 exports.taoTK = (req, res, next) => {
+  let newpass = "select randompassword ();";
   let taotk =
-    "INSERT INTO `qlnhatro`.`taikhoan` (`matk`, `matkhau`, `quyen`,`handung`) VALUES ( (select newTK()), (select randomPassword()), '0','1');";
+    "INSERT INTO `qlnhatro`.`taikhoan` (`matk`, `matkhau`, `quyen`,`handung`) VALUES ( (select newTK()), md5(?), '0','1');";
   let themTK =
     "INSERT INTO `qlnhatro`.`khachhang` (`STT`, `sdt`, `cccd`, `hoten`, `nghenghiep`, `quequan`) VALUES (?, ?, ?, ?, ?, ?);";
 
   try {
-    con.query(taotk, function (err, results, fields) {
-      if (err) throw err.stack;
-      let lastID = results.insertId;
-      con.query(themTK, [
-        lastID,
-        req.body.sdt,
-        req.body.cccd,
-        req.body.hoten,
-        req.body.nghenghiep,
-        req.body.quequan,
-      ]);
+    con.query(newpass, function (err, result, field) {
+      // console.log(Object.values(result[0]));
+      con.query(taotk, Object.values(result[0]), function (err, results, fields) {
+        if (err) throw err.stack;
+        const lastID = results.insertId;
+        con.query(themTK, [
+          lastID,
+          req.body.sdt,
+          req.body.cccd,
+          req.body.hoten,
+          req.body.nghenghiep,
+          req.body.quequan,
+        ]);
+        
+        return res.json({
+        "pass":Object.values(result[0]),
+        message:"Thành công",
+        "ID":"MS"+lastID,
+      })
+      });
+      
+    });
+  } catch (error) {
+    return new ApiError(500, "Kết nối với tài khoản thất bại");
+  }
+};
+//
 
-      return res.send("Tạo thanh công");
-    });
-  } catch (error) {
-    return new ApiError(500, "Kết nối với tài khoản thất bại");
-  }
-};
-//Lấy chi tiết của 1 tài khoản
-exports.lay1TK = (req, res, next) => {
-  let myquery = 'call hiends("khachhang")';
-  let sotk = req.params.sotk;
-  try {
-    con.query(myquery, sotk, function (err, result, fields) {
-      if (err) throw err.stack;
-      return res.send(result[0]);
-    });
-  } catch (error) {
-    return new ApiError(500, "Kết nối với tài khoản thất bại");
-  }
-};
 // chỉnh sửa 1  khach tro
 exports.chinhsuaTK = (req, res, next) => {
   let chinhsuaTK =
@@ -76,5 +86,3 @@ exports.chinhsuaTK = (req, res, next) => {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
-
-

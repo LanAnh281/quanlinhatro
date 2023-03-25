@@ -1,6 +1,8 @@
 const con = require("../util/mysql.util");
 const ApiError = require("../api_error");
 
+
+
 // Lấy ds hợp đồng
 exports.layDSHD = (req, res, next) => {
   let myquery = 'call hiends("hopdong")';

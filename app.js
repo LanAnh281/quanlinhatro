@@ -1,6 +1,10 @@
 var express = require('express');
 const cors=require('cors');
+var bodyParser=require('body-parser');
+var cookiesParse=require('cookie-parser');
+const path= require('path');
 
+const routelogin=require('./app/routes/login.routes');
 const routerloaiphong= require("./app/routes/loaiphong.routes");
 const routerkhachtro =require("./app/routes/khachtro.routes");
 const routehopdong=require('./app/routes/hopdong.routes');
@@ -11,13 +15,19 @@ const routegiadiennuoc=require('./app/routes/giadiennuoc.routes');
 const routephong=require('./app/routes/phong.routes');
 const routediennuoc=require('./app/routes/diennuoc.routes');
 const routehoadon=require('./app/routes/hoadon.routes');
-const routephieuthu=require('./app/routes/phieuthu.routes')
+const routephieuthu=require('./app/routes/phieuthu.routes');
 
 const ApiError=require('./app/api_error');
 var app = express();
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(cookiesParse());
+
 app.use(express.json())
 app.use(cors());
 
+
+
+app.use('/api/login',routelogin);
 
 app.use('/api/loaiphong',routerloaiphong);
 app.use('/api/khachtro',routerkhachtro);
