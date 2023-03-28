@@ -1,10 +1,15 @@
 const con = require("../util/mysql.util");
 const ApiError = require("../api_error");
 
-
+exports.checkDN=async(req,res,next)=>{
+  req.cookies.token;
+  var token=await req.cookies.token;
+  console.log(token);
+}
 
 // Lấy ds hợp đồng
 exports.layDSHD = (req, res, next) => {
+  console.log('tai khoan:'+req.data);
   let myquery = 'call hiends("hopdong")';
   try {
     con.query(myquery, function (err, result, fields) {
