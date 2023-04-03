@@ -47,7 +47,7 @@
         })
           .then((data) => {
             console.log(data);
-            setCookie('token',data.token,1);
+            setCookie('token',data.token,1);//1 ngày
           })
           .catch((err) => {
             console.log(err);
