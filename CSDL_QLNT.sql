@@ -50,7 +50,7 @@ create table GIALOAIPHONG(
     foreign key (maloai) references LOAIPHONG(maloai),
     primary key(thoigianapdung,maloai)
 );
-
+alter table gialoaiphong add column tontai char(1);
 create table PHONG(
 	maloai int,
 	maphong int auto_increment,

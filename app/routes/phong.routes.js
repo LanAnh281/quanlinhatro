@@ -7,5 +7,6 @@ router.route('/')
         .post(phong.themTT);
 router.route('/:maphong')
         .put(phong.chinhsuaPhong);
-
+router.route('/:maloai')
+.get(phong.LTTPTheoLoai);
 module.exports=router;

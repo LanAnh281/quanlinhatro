@@ -12,6 +12,18 @@ exports.layTTP= (req,res,next)=>{
         return new ApiError(500,'Không kết nối với phong');
     }
 }
+//Hiển thị dsp theo loại
+exports.LTTPTheoLoai=(req,res,next)=>{
+    let myquery="select * from phong where maloai=?;";
+    try{
+        con.query(myquery,req.params.maloai,function(err,result,field){
+            if(err) throw err.stack;
+            res.send(result);
+        })
+    }catch(err){
+        return new ApiError(500,'Không kết nối với phòng');
+    }
+}
 //Thêm mới giá điện nước
 exports.themTT= (req,res,next)=>{
     let myquery="INSERT INTO `qlnhatro`.`phong` (`maloai`, `tenphong`, `trangthai`) VALUES (?, ?, '0');";

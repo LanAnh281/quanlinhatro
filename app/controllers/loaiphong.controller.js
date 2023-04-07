@@ -3,10 +3,20 @@ const ApiError = require("../api_error");
 
 // Hiện danh sách loại phòng
 exports.layDSLP = (req, res, next) => {
-  let myquery = `call hiends("loaiphong")`;
+  let myquery = `select lp.maloai,tenloai,dientich,giaphong from loaiphong lp join gialoaiphong g on lp.maloai=g.maloai where lp.tontai='1' and g.tontai='1';`;
   try {
     con.query(myquery, function (err, results, fields) {
-      return res.send(results[0]);
+      return res.send(results);
+    });
+  } catch (err) {
+    return next(new ApiError(500, "Xảy ra lỗi khi kết nối đến loại phòng"));
+  }
+};
+exports.layLP = (req, res, next) => {
+  let myquery = `select  dientich,lp.maloai,tenloai, g.giaphong from loaiphong lp join gialoaiphong g on lp.maloai=g.maloai where lp.maloai=?;`;
+  try {
+    con.query(myquery,req.params.maloai, function (err, results, fields) {
+      return res.send(results[results.length-1]);
     });
   } catch (err) {
     return next(new ApiError(500, "Xảy ra lỗi khi kết nối đến loại phòng"));
@@ -35,6 +45,7 @@ exports.themLP = (req, res, next) => {
     let maloai;
     con.query(demsoloai, function (err, results, fields) {
       maloai = results[0];
+      
       maloai = Object.values(maloai);
       con.query(themgia, [dateTime, maloai, req.body.giaphong]);
       return res.send("Thêm thành công");
@@ -50,9 +61,9 @@ exports.capNhatLP = (req, res, next) => {
     "UPDATE `qlnhatro`.`loaiphong` SET `dientich` =?,`tenloai` =? WHERE (`maloai` = ?);";
   let themthoigian =
       "INSERT INTO `qlnhatro`.`thoigian` (`thoigianapdung`) VALUES (?);";
- 
+  let capnhattontaigia=" UPDATE `qlnhatro`.`gialoaiphong` SET `tontai` = '0' WHERE`maloai` = ?;";
   let themgia =
-      "INSERT INTO `qlnhatro`.`gialoaiphong` (`thoigianapdung`, `maloai`, `giaphong`) VALUES (?, ?, ?);";
+      "INSERT INTO `qlnhatro`.`gialoaiphong` (`thoigianapdung`, `maloai`, `giaphong`,`tontai`) VALUES (?, ?, ?,'1');";
 
   var today = new Date();
   var date =
@@ -65,6 +76,7 @@ exports.capNhatLP = (req, res, next) => {
       con.query(capnhatloaiphong, [req.body.dientich,req.body.tenloai,req.params.maloai]);
       if (req.body.giaphong) {
         con.query(themthoigian, dateTime);
+        con.query(capnhattontaigia,req.params.maloai);
         con.query(themgia, [dateTime, req.params.maloai, req.body.giaphong]);
         }
       res.send("Cập nhật thành công");
@@ -76,6 +88,7 @@ exports.capNhatLP = (req, res, next) => {
 exports.xoaLP = (req,res,next)=>{
   let ktsophongconlai="select count(*) from phong where maloai=? and trangthai='1';";
   let xoaloaiphong="UPDATE `qlnhatro`.`loaiphong` SET `tontai` = '0' WHERE (`maloai` = ?);";
+  
 
   try {
     let conlai;

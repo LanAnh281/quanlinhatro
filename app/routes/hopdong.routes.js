@@ -3,7 +3,7 @@ const router=express.Router();
 const hopdong=require('../controllers/hopdong.controller');
 const login=require('../controllers/login.controller');
 router.route('/')
-        .get([login.KTDN,hopdong.layDSHD])
+        .get(hopdong.layDSHD)
         .post(hopdong.themHD);
 router.route('/:sotk')
         .get(hopdong.layHD);
