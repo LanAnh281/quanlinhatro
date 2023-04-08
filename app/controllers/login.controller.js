@@ -2,35 +2,6 @@ const con = require("../util/mysql.util");
 const ApiError = require("../api_error");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-
-exports.dangnhap = (req, res, next) => {
-  let checkdangnhap =
-    "select STT from taikhoan where matk=? and matkhau=md5(?);";
-  try {
-    con.query(
-      checkdangnhap,
-      [req.body.matk, req.body.matkhau],
-      (err, result, field) => {
-        if (err) throw err.stack;
-        else if (result.length > 0) {
-          kq = Object(result[0]);
-          jwt.sign(result[0], "password", function (err, data) {
-            return res.json({
-              message: "thành công",
-              token: data,
-            });
-          });
-        } else {
-          res.send("đăng nhập thất bại");
-        }
-      }
-    );
-  } catch (error) {
-    return new ApiError(500, "đăng nhập lỗi");
-  }
-};
-
-
 exports.hienthi = (req, res, next) => {
   res.sendFile(path.join(__dirname + "/../../views/", "index.html"));
 };
@@ -57,6 +28,38 @@ exports.KTDN = async (req, res, next) => {
   req.data=Object(TTTK[0]);
   next();
 };
+exports.dangnhap = (req, res, next) => {
+  let checkdangnhap =
+    "select STT from taikhoan where matk=? and matkhau=md5(?);";
+  try {
+    con.query(
+      checkdangnhap,
+      [req.body.matk, req.body.matkhau],
+      (err, result, field) => {
+        if (err) throw err.stack;
+        else if (result.length > 0) {
+          kq = Object(result[0]);
+          jwt.sign(result[0], "password", function (err, data) {
+            return res.json({
+              message: "success",
+              token: data,
+            });
+          });
+        } else {
+          res.json({
+            message:"fail"
+          })
+        }
+      }
+    );
+  } catch (error) {
+    return new ApiError(500, "đăng nhập lỗi");
+  }
+};
+
+
+
+
 
 exports.checkChuTro=(req,res,next)=>{
   

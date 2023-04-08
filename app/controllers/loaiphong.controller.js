@@ -30,7 +30,7 @@ exports.themLP = (req, res, next) => {
     "INSERT INTO `qlnhatro`.`loaiphong` (`tenloai`, `dientich`,`tontai`) VALUES (?, ?,'1');";
   let demsoloai = "select max(maloai) from loaiphong;";
   let themgia =
-    "INSERT INTO `qlnhatro`.`gialoaiphong` (`thoigianapdung`, `maloai`, `giaphong`) VALUES (?, ?, ?);";
+    "INSERT INTO `qlnhatro`.`gialoaiphong` (`thoigianapdung`, `maloai`, `giaphong`,`tontai`) VALUES (?, ?, ?,'1');";
 
   var today = new Date();
   var date =
