@@ -2,7 +2,9 @@ const con = require('../util/mysql.util');
 const ApiError= require('../api_error');
 
 exports.layDS=(req,res,next)=>{
-    let myquery="select * from phieugiahan";
+    let myquery=`select maphieu,kh.STT,kh.hoten,trangthai,date_format(ngaybd,'%d-%m-%Y') as ngaybd ,date_format(ngaykt,'%d-%m-%Y') as ngaykt 
+    from phieugiahan p join khachhang kh on p.stt_kh=kh.stt;
+  `;
     try {
         con.query(myquery,function(err, result,filters){
             if(err) throw err.stack;
