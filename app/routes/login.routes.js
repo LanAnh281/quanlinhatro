@@ -4,8 +4,8 @@ const login=require('../controllers/login.controller');
 
 router.route('/')
     // .get(login.hienthi)
+    .get([login.KTDN,login.checkQuyen])
     .post(login.dangnhap);
-router.route('/private')
-    .get([login.KTDN,login.checkChuTro,login.trangbatbuocDaDN]);
+// router.route('/private')
 
 module.exports=router;

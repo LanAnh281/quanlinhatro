@@ -5,29 +5,7 @@ const path = require("path");
 exports.hienthi = (req, res, next) => {
   res.sendFile(path.join(__dirname + "/../../views/", "index.html"));
 };
-exports.KTDN = async (req, res, next) => {
-  let token = req.cookies.token;
-  var TTTK;
-  try {
-    let kq = jwt.verify(token, "password");
-    if (kq) {
-      TTTK = await
-        con
-          .promise()
-          .query("select * from taikhoan where STT=?;", kq.STT)
-          .then((data) => {
-            return data[0];
-          })
-          .catch((err) => {
-            return err;
-          });
-    }
-  } catch (err) {
-    return res.redirect("/api/login");
-  }
-  req.data=Object(TTTK[0]);
-  next();
-};
+
 exports.dangnhap = (req, res, next) => {
   let checkdangnhap =
     "select STT from taikhoan where matk=? and matkhau=md5(?);";
@@ -58,29 +36,64 @@ exports.dangnhap = (req, res, next) => {
 };
 
 
+exports.KTDN = async (req, res, next) => {
+  let token = req.cookies.token;
+  var TTTK;
+  if(token){
+    try {
+      let kq = jwt.verify(token, "password");
+      if (kq) {
+        TTTK = await
+          con
+            .promise()
+            .query("select * from taikhoan where STT=?;", kq.STT)
+            .then((data) => {
+              return data[0];
+            })
+            .catch((err) => {
+              return err;
+            });
+      }
+    } catch (err) {
+      // return res.redirect("/api/login");
+      return res.json({
+        message:"chuadangnhap"
+      })
+    }
+    req.data=Object(TTTK[0]);
+    next();
+  }else {
+    return res.json({
+        message:"chuadangnhap"
+    })
+  }
+  
+};
 
 
-
-exports.checkChuTro=(req,res,next)=>{
+exports.checkQuyen=(req,res,next)=>{
   
   if(req.data.quyen==='1'){
-    next();
-  }else{
-    res.json('Khong co quyen');
+    res.json({message:"chutro"})
+  }else if(req.data.quyen==='0'){
+    res.json({message:"khachtro"})
+  }else {
+    res.json({message:"no"})
+
   }
 }
 exports.checkKhach=(req,res,next)=>{
   
   if(req.data.quyen==='0'){
-    next();
+    res.json({message:"khachtro"})
   }else{
     res.json('Khong co quyen');
   }
 }
-exports.trangbatbuocDaDN = (req, res, next) => {
-  console.log(req.data);
-  res.json("welcome you to private page");
-};
+exports.logout=(req,res,next)=>{
+  res.clearCookie('token');
+}
+
 
 
 

@@ -9,12 +9,15 @@ exports.checkDN=async(req,res,next)=>{
 
 // Lấy ds hợp đồng
 exports.layDSHD = (req, res, next) => {
-  console.log('tai khoan:'+req.data);
-  let myquery = 'call hiends("hopdong")';
+  
+  let myquery = 
+  `  select mahd,hd.maphong,p.tenphong,kh.STT,hoten, date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt
+  from hopdong hd join khachhang kh on hd.stt_tk =kh.stt
+  join phong p on p.maphong=hd.maphong;`;
   try {
     con.query(myquery, function (err, result, fields) {
       if (err) throw err.stack;
-      return res.send(result[0]);
+      return res.send(result);
     });
   } catch (error) {
     return new ApiError(500, "Kết nối thất bại đến hợp đồng");
