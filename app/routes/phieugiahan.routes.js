@@ -4,10 +4,13 @@ const phieugiahan= require('../controllers/phieugiahan.controller');
 
 router.route('/')
         .get(phieugiahan.layDS)
-        .delete(phieugiahan.xoaPhieu)
-        .put(phieugiahan.chinhsua);
+        .put(phieugiahan.chinhsua)
+        .delete(phieugiahan.xoaPhieu);
+        
 router.route('/:sotk')
         .get(phieugiahan.layDSPhieu)
         .post(phieugiahan.taophieu);
+
+        
         
 module.exports=router;
