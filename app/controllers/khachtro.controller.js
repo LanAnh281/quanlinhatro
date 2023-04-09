@@ -18,8 +18,8 @@ exports.lay1TK = (req, res, next) => {
   let myquery =
     "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0' and kh.stt=?;";
   try {
-    con.query(myquery, req.params.sotk,function (err, result) {
-      return res.send(result);
+    con.query(myquery, req.params.sotk,function (err, results) {
+      return res.json(Object(results[0]));
     });
   } catch (error) {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
@@ -79,7 +79,9 @@ exports.chinhsuaTK = (req, res, next) => {
       ],
       function (err, results, fields) {
         if (err) throw err.stack;
-        return res.send("Chỉnh sửa thành công");
+        return res.json({
+          chinhsua:"capnhat thanhcong"
+        });
       }
     );
   } catch (error) {
