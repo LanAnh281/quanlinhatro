@@ -7,7 +7,8 @@ router.route('/')
             .post(taikhoan.taoTK);
 router.route('/:sotk')
             .get(taikhoan.lay1TK)
-            .put(taikhoan.chinhsuaTK);
+            .put(taikhoan.chinhsuaTK)
+            .delete(taikhoan.xoaTK);
             
             
 module.exports=router;

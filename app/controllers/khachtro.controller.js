@@ -4,7 +4,7 @@ const con = require("../util/mysql.util");
 //Lấy ds khách hàng
 exports.layTK = (req, res, next) => {
   let myquery =
-    "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0';";
+    "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0' and handung='1';";
   try {
     con.query(myquery, function (err, result) {
       return res.send(result);
@@ -16,7 +16,7 @@ exports.layTK = (req, res, next) => {
 //Lấy chi tiết của 1 tài khoản
 exports.lay1TK = (req, res, next) => {
   let myquery =
-    "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0' and kh.stt=?;";
+    "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0' and kh.stt=? and handung='1';";
   try {
     con.query(myquery, req.params.sotk,function (err, results) {
       return res.json(Object(results[0]));
@@ -81,6 +81,25 @@ exports.chinhsuaTK = (req, res, next) => {
         if (err) throw err.stack;
         return res.json({
           chinhsua:"capnhat thanhcong"
+        });
+      }
+    );
+  } catch (error) {
+    return new ApiError(500, "Kết nối với tài khoản thất bại");
+  }
+};
+exports.xoaTK = (req, res, next) => {
+  let myquery =`UPDATE taikhoan SET handung = '0' WHERE (STT = ?);`;
+  try {
+    con.query(
+      myquery,
+      [
+       req.params.sotk
+      ],
+      function (err, results, fields) {
+        if (err) throw err.stack;
+        return res.json({
+          xoa:"xoa thanhcong"
         });
       }
     );
