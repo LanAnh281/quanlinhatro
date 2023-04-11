@@ -7,6 +7,8 @@ router.route('/')
         .post(hopdong.themHD);
 router.route('/:sotk')
         .get(hopdong.layHD);
+router.route('/:mahd')
+        .delete(hopdong.xoaHD);
 
 
 module.exports=router;

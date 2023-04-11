@@ -1,10 +1,10 @@
 const express=require('express');
 const loaiphong=require('../controllers/loaiphong.controller');
-
+const login=require('../controllers/login.controller');
 const router= express.Router();
 
 router.route('/')
-            .get(loaiphong.layDSLP)
+            .get([login.KTDN,loaiphong.layDSLP])
             .post(loaiphong.themLP);
 router.route('/:maloai')
             .get(loaiphong.layLP)

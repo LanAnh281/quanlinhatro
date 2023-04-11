@@ -41,10 +41,11 @@ exports.themTT= (req,res,next)=>{
 }
 //Chỉnh sửa trạng thái phòng
 exports.chinhsuaPhong= (req,res,next)=>{
+    console.log(req.body.trangthai);
     let myquery="   UPDATE `qlnhatro`.`phong` SET `trangthai` = ? WHERE (`maphong` = ?);";
     try {
         con.query(myquery,
-            [req.query.trangthai,req.params.maphong],
+            [req.body.trangthai,req.params.maphong],
             function(err,result, field){
             if(err) throw err.stack;
             return res.send('Chỉnh sửa trạng thái phòng thành công');
