@@ -6,8 +6,10 @@ router.route('/')
         .get(hopdong.layDSHD)
         .post(hopdong.themHD);
 router.route('/:sotk')
-        .get(hopdong.layHD);
+        
 router.route('/:mahd')
+        .get(hopdong.layHD)
+        .put(hopdong.chinhsuahd)
         .delete(hopdong.xoaHD);
 
 

@@ -12,6 +12,17 @@ exports.layTTP= (req,res,next)=>{
         return new ApiError(500,'Không kết nối với phong');
     }
 }
+exports.layPhong= (req,res,next)=>{
+    let myquery="select * from phong where maphong=?";
+    try {
+        con.query(myquery,req.params.maphong,function(err,result, field){
+            if(err) throw err.stack;
+            return res.send(result);
+        })
+    } catch (error) {
+        return new ApiError(500,'Không kết nối với phong');
+    }
+}
 //Hiển thị dsp theo loại
 exports.LTTPTheoLoai=(req,res,next)=>{
     let myquery="select * from phong where maloai=?;";
@@ -41,7 +52,6 @@ exports.themTT= (req,res,next)=>{
 }
 //Chỉnh sửa trạng thái phòng
 exports.chinhsuaPhong= (req,res,next)=>{
-    console.log(req.body.trangthai);
     let myquery="   UPDATE `qlnhatro`.`phong` SET `trangthai` = ? WHERE (`maphong` = ?);";
     try {
         con.query(myquery,

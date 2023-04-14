@@ -14,7 +14,7 @@ exports.layDSTK= (req,res,next)=>{
 }
 //lay 1 tai khoan
 exports.layTK= (req,res,next)=>{
-    let myquery="select  * from taikhoan where matk=?; ";
+    let myquery="select  * from taikhoan where STT=?; ";
     try {
         con.query(myquery,req.params.sotk,(err,result,filters)=>{
             if(err) throw err.stack;

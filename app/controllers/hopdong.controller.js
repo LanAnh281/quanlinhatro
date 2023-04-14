@@ -25,6 +25,7 @@ exports.layDSHD = (req, res, next) => {
 };
 //Thêm hợp đồng mới
 exports.themHD = async (req, res, next) => {
+  console.log("mã tài khoản:",req.body.matk);
   let layTK = `select STT from taikhoan where matk=?;`;
   let themhd =`INSERT INTO hopdong (maphong, stt_tk, stt_tro, ngaybd, ngaykt) VALUES (?,?,?,?,?);`;
   let token = req.cookies.token;
@@ -39,7 +40,7 @@ exports.themHD = async (req, res, next) => {
     .catch((err) => {
       return err;
     });
-    console.log('tài khoản khách',taikhoanKhach[0].STT);
+    console.log('tài khoản khách',taikhoanKhach);
   
   try {
     con.query(themhd,[req.body.maphong,taikhoanKhach[0].STT,kq.STT,req.body.ngaybd,req.body.ngaykt],function(err,results,field){
@@ -49,8 +50,6 @@ exports.themHD = async (req, res, next) => {
   } catch (error) {
     return new ApiError(500,'Không kết nối đến hợp đồng');
   }
-
-
 };
 exports.xoaHD=(req,res,next)=>{
   let myquery=`DELETE FROM hopdong WHERE (mahd = ?);`;
@@ -65,13 +64,31 @@ exports.xoaHD=(req,res,next)=>{
 }
 //lấy 1 hợp đồng
 exports.layHD = (req, res, next) => {
-  let myquery = "select * from hopdong where stt_tk=?";
+  let myquery = "select  maphong,stt_tro,stt_tk, mahd,date_format(ngaybd,'%Y-%m-%d')as ngaybd ,date_format(ngaykt,'%Y-%m-%d')  as ngaykt from hopdong where mahd=?;";
   try {
-    con.query(myquery, req.params.sotk, (err, result, fields) => {
+    con.query(myquery, req.params.mahd, (err, result, fields) => {
       if (err) throw err.stack;
-      return res.send(result);
+      return res.send(Object(result));
     });
   } catch (error) {
     return new ApiError(500, "Kết nối thất bại đến hợp đồng");
   }
 };
+exports.chinhsuahd=(req,res,next)=>{
+
+  let myquery="UPDATE `qlnhatro`.`hopdong` SET `maphong` = ?, `stt_tk` = ?, `ngaybd` = ?, `ngaykt` = ? WHERE (`mahd` = ?);";
+  try {
+    con.query(myquery,
+      [req.body.maphong,
+        req.body.stt,
+        req.body.ngaybd,
+        req.body.ngaykt,
+        req.params.mahd],
+      function (err,results,field) {
+        if(err) throw err.stack;
+        res.json({message:'Cập nhật hợp đồng'});
+      })
+  } catch (error) {
+    return new ApiError (500,'không kết nối với hợp đống');
+  }
+}
