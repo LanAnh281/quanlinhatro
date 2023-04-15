@@ -31,7 +31,19 @@ exports.layDSPT = (req, res, next) => {
   }
 };
 
+//lây 1 phiếu thu của 1 hóa đơn
+exports.layPT=(req,res,next)=>{
+  let myquery=`select mahd,mapt, date_format(ngaythu,'%d-%m-%Y') as ngaythu from phieuthu where mahd=?;`;
+  try {
+    con.query(myquery,req.params.mahd, function (err,result,field) {
+      if(err) throw err.stack;
+      res.send(result);
+      })
+  } catch (error) {
+    return new ApiError(500, "Không kết nối với hóa đơn");
 
+  }
+}
 //tạo phiếu thu, phong
 exports.taoPT = (req, res, next) => {
   let myquery = "INSERT INTO `qlnhatro`.`phieuthu` (`mahd`, `ngaythu`) VALUES (?, ?);";

@@ -6,6 +6,7 @@ router.route('/')
     .get(phieuthu.layDSPT)
     .delete(phieuthu.xoaPT);
 router.route('/:mahd')
+        .get(phieuthu.layPT)
         .post(phieuthu.taoPT);
 router.route('/:mapt')
         .put(phieuthu.chinhsuaPT);
