@@ -10,6 +10,7 @@ create table TAIKHOAN (
     quyen char(1)
 );
 alter table taikhoan add column handung char(1);
+alter table taikhoan add column mk varchar(50);
 create table NHATRO(
 	STT int ,
 	sdt char(10) not null,

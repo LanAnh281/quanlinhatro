@@ -6,7 +6,7 @@ exports.layTTNT=(req,res,next)=>{
     try {
         con.query(myquery,(err,result,fields)=>{
             if(err) throw err.stack;
-            return res.send(result);
+            return res.send(Object(result));
         })
     } catch (error) {
         return new ApiError(500,'Kết nối thất bại đến nhà trọ');

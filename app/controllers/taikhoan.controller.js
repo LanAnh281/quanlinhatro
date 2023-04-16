@@ -26,9 +26,11 @@ exports.layTK= (req,res,next)=>{
 }
 //Cap nhat mat khau cua 1 tai khoan
 exports.capnhatMK=(req,res,next)=>{
+    console.log("STT",req.data.STT);
+
 let myquery="UPDATE `qlnhatro`.`taikhoan` SET `matkhau` = md5(?) WHERE (`STT` = ?);";
 try {
-    con.query(myquery,[req.body.mk,req.params.sotk],(err,result,filters)=>{
+    con.query(myquery,[req.body.mk,req.data.STT],(err,result,filters)=>{
         if(err) throw err.stack;
         return res.send('Cap nhat mat khau thanh cong');
     })

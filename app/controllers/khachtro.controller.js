@@ -29,14 +29,14 @@ exports.lay1TK = (req, res, next) => {
 exports.taoTK = (req, res, next) => {
   let newpass = "select randompassword ();";
   let taotk =
-    "INSERT INTO `qlnhatro`.`taikhoan` (`matk`, `matkhau`, `quyen`,`handung`) VALUES ( (select newTK()), md5(?), '0','1');";
+    "INSERT INTO `qlnhatro`.`taikhoan` (`matk`, `matkhau`, `quyen`,`handung`,`mk`) VALUES ( (select newTK()), md5(?), '0','1',?);";
   let themTK =
     "INSERT INTO `qlnhatro`.`khachhang` (`STT`, `sdt`, `cccd`, `hoten`, `nghenghiep`, `quequan`) VALUES (?, ?, ?, ?, ?, ?);";
 
   try {
     con.query(newpass, function (err, result, field) {
       // console.log(Object.values(result[0]));
-      con.query(taotk, Object.values(result[0]), function (err, results, fields) {
+      con.query(taotk, [Object.values(result[0]),Object.values(result[0])], function (err, results, fields) {
         if (err) throw err.stack;
         const lastID = results.insertId;
         con.query(themTK, [
@@ -52,6 +52,7 @@ exports.taoTK = (req, res, next) => {
         "pass":Object.values(result[0]),
         message:"Thành công",
         "ID":"MS"+lastID,
+        "STT":lastID
       })
       });
       
