@@ -89,6 +89,7 @@ exports.chinhsuaTK = (req, res, next) => {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
+//xóa 
 exports.xoaTK = (req, res, next) => {
   let myquery =`UPDATE taikhoan SET handung = '0' WHERE (STT = ?);`;
   try {

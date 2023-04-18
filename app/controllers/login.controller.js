@@ -39,7 +39,7 @@ exports.dangnhap = (req, res, next) => {
 exports.KTDN = async (req, res, next) => {
   let token = req.cookies.token;
   var TTTK;
-  console.log(token);
+  
   if(token){
     try {
       let kq = jwt.verify(token, "password");

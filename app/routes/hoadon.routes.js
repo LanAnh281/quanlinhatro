@@ -7,7 +7,7 @@ router.route('/')
         .post(hoadon.taoHD)
         .delete(hoadon.xoaHD);
 router.route('/:mahd')
-        
+        .get(hoadon.layHD)  
         .put(hoadon.chinhsuaHDTheoKHTheoThang)
         .delete(hoadon.xoaHD);
         

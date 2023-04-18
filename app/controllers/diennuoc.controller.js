@@ -27,13 +27,17 @@ exports.themDN=(req,res,next)=>{
         con.query(myquery,
             [req.body.maphong, 
             date,
-            req.query.dienchisocu,
-            req.body.dienchisomoi,
+            req.body.dienchisocu,
+            req.body.dienmoi,
             req.body.nuocchisocu,
-            req.body.nuocchisomoi],
+            req.body.nuocmoi],
             function(err,result,fields){
-                if(err) throw err.stack;
-                return res.send();
+                if(err) {
+                    console.log(err.stack);
+                    return res.json({mes:'Phòng này đã được ghi điện nước'});
+                }  
+
+                return res.json({mes:'đã tạo hóa đơn'});
             })
         
     } catch (error) {
@@ -42,9 +46,9 @@ exports.themDN=(req,res,next)=>{
 }
 //Lây điện nước của 1 phòng
 exports.layDN=(req,res,next)=>{
-    let myquery="select * from dien_nuoc where maphong=?;";
+    let myquery="select * from dien_nuoc where maphong=? and month(thoigianghi)=? and year(thoigianghi)=?;";
     try {
-        con.query(myquery,req.params.maphong,
+        con.query(myquery,[req.params.maphong,req.body.thang,req.body.nam],
             function(err,result,fields){
                 if(err) throw err.stack;
                 return res.send(result);
@@ -56,7 +60,8 @@ exports.layDN=(req,res,next)=>{
 }
 // chỉnh sửa giá điện nước
 exports.chinhsuaDN=(req,res,next)=>{
-    let myquery="UPDATE `qlnhatro`.`dien_nuoc` SET `thoigianghi` = ?, `dienchisocu` = ?, `dienchisomoi` = ?, `nuocchisocu` = ?, `nuocchisomoi` = ? WHERE (`maphong` = ?) and (`thoigianghi` =?);";
+    let myquery=
+    `UPDATE dien_nuoc SET thoigianghi=?,dienchisocu = ?,dienchisomoi = ?, nuocchisocu = ?,nuocchisomoi = ? WHERE (maphong = ?) and (month(thoigianghi))=? and (year(thoigianghi))=?;`;
     var today = new Date();
     var date =
       today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
@@ -64,12 +69,13 @@ exports.chinhsuaDN=(req,res,next)=>{
     try {
         con.query(myquery,
             [date,
-            req.body.dienchisocu,
-            req.body.dienchisomoi,
+            req.body.dienchisocu, 
+            req.body.dienmoi,
             req.body.nuocchisocu,
-            req.body.nuocchisomoi,
-            req.params.maphong,
-            req.query.thoigianghi
+            req.body.nuocmoi,
+            req.body.maphong,
+            req.body.thang,
+            req.body.nam
             ],
             function(err,result,fields){
                 if(err) throw err.stack;
