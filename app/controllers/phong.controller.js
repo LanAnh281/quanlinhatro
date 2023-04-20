@@ -65,9 +65,10 @@ exports.chinhsuaPhong= (req,res,next)=>{
     }
 
 }
-//Chỉnh sửa trạng thái phòng
-exports.xoaPhong= (req,res,next)=>{
-    let myquery="   DELETE FROM `qlnhatro`.`phong` WHERE (`maphong` = ?);";
+//xóa phòng
+exports.xoaPhong= async(req,res,next)=>{
+    let myquery="DELETE FROM `qlnhatro`.`phong` WHERE (`maphong` = ?)";
+    
     try {
         con.query(myquery,
             [req.params.maphong],

@@ -51,6 +51,7 @@ exports.themHD = async (req, res, next) => {
     return new ApiError(500,'Không kết nối đến hợp đồng');
   }
 };
+//xoa
 exports.xoaHD=(req,res,next)=>{
   let myquery=`DELETE FROM hopdong WHERE (mahd = ?);`;
   try {
@@ -74,6 +75,7 @@ exports.layHD = (req, res, next) => {
     return new ApiError(500, "Kết nối thất bại đến hợp đồng");
   }
 };
+//chỉnh sửa
 exports.chinhsuahd=(req,res,next)=>{
 
   let myquery="UPDATE `qlnhatro`.`hopdong` SET `maphong` = ?, `stt_tk` = ?, `ngaybd` = ?, `ngaykt` = ? WHERE (`mahd` = ?);";
