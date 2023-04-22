@@ -12,4 +12,6 @@ router.route('/:maphong')
         .get(dien_nuoc.layDSDN)
         .post(dien_nuoc.layDN)
         .delete(dien_nuoc.xoaDN);
+router.route('/thongke/:nam')
+    .get(dien_nuoc.thongke);
 module.exports=router;
