@@ -15,6 +15,7 @@ exports.layTTNT=(req,res,next)=>{
 }
 
 exports.chinhsua=(req,res,next)=>{
+    console.log(req.data.STT);
     let myquery="UPDATE `qlnhatro`.`nhatro` SET `sdt` = ?, `hoten` = ?, `tennhatro` = ?, `diachi` = ? WHERE (`STT` = ?);";
     try {
         con.query(myquery,
@@ -23,7 +24,7 @@ exports.chinhsua=(req,res,next)=>{
                 req.body.hoten,
                 req.body.tennhatro,
                 req.body.diachi,
-                req.params.sotk
+                req.data.STT
             ],
             (err,result,fields)=>{
             if(err) throw err.stack;

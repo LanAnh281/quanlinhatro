@@ -62,6 +62,7 @@ exports.KTDN = async (req, res, next) => {
       })
     }
     req.data=Object(TTTK[0]);
+    console.log(req.data);
     next();
   }else {
     return res.json({
@@ -80,7 +81,6 @@ exports.checkQuyen=(req,res,next)=>{
     res.json({message:"khachtro"})
   }else {
     res.json({message:"no"})
-
   }
 }
 exports.checkKhach=(req,res,next)=>{

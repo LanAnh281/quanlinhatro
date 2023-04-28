@@ -2,13 +2,13 @@ drop database QLNHATRO;
 create database QLNHATRO;
 use QLNHATRO;
 
-
 create table TAIKHOAN (
 	STT int auto_increment primary key,
     matk varchar(10) ,
     matkhau varchar(50) ,
     quyen char(1)
 );
+
 alter table taikhoan add column handung char(1);
 alter table taikhoan add column mk varchar(50);
 create table NHATRO(
@@ -61,9 +61,6 @@ create table PHONG(
     primary key(maphong)
 );
 
-create table THANG(
-	thang int primary key
-);
 create table GIADIEN_NUOC(
 	thoidiem date primary key,
     giadien float,
@@ -80,17 +77,20 @@ create table DIEN_NUOC (
 	primary key (maphong,thoigianghi)
 );
 
+
 create table HOADON(
 	mahd int auto_increment,
 	thang int,
     maphong int,
     tongtien float,
     foreign key (maphong) references PHONG(maphong),
-    foreign key (thang) references THANG(thang),
     primary key(mahd)
 );
+
 alter table hoadon add column trangthai varchar (30) not null;
 alter table hoadon add column nam int ;
+
+
 create table PHIEUTHU(
 	mapt int auto_increment primary key,
     mahd int,

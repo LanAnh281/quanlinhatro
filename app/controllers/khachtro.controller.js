@@ -35,7 +35,7 @@ exports.taoTK = (req, res, next) => {
 
   try {
     con.query(newpass, function (err, result, field) {
-      // console.log(Object.values(result[0]));
+      console.log(Object.values(result[0]));
       con.query(taotk, [Object.values(result[0]),Object.values(result[0])], function (err, results, fields) {
         if (err) throw err.stack;
         const lastID = results.insertId;
