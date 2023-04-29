@@ -18,12 +18,18 @@ const routephong=require('./app/routes/phong.routes');
 const routediennuoc=require('./app/routes/diennuoc.routes');
 const routehoadon=require('./app/routes/hoadon.routes');
 const routephieuthu=require('./app/routes/phieuthu.routes');
+const routeUpload=require('./app/routes/Anh.route');
+
 const paypal= require('paypal-rest-sdk');
 const ApiError=require('./app/api_error');
 
 var app = express();
+app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(express.static('public'));
+// app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookiesParse());
 
 app.use(express.json())
@@ -55,6 +61,6 @@ app.use('/api/phieuthu',routephieuthu);
 
 app.use('/api/paypal',routepaypal);
 
-
+app.use('/api/upload',routeUpload);
 
 module.exports=app;

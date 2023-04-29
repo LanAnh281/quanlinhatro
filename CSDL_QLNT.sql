@@ -31,7 +31,7 @@ create table KHACHHANG(
     foreign key (STT) references TAIKHOAN(STT),
     primary key (STT)
 );
-
+alter table khachhang add anhCCCD varchar(50);
 create table LOAIPHONG(
 	maloai varchar(3) primary key,
     tenloai varchar(30) not null,

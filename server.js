@@ -1,4 +1,4 @@
-var mysql = require('./app/util/mysql.util');
+// var mysql = require('./app/util/mysql.util');
 const config = require('./app/config');
 const app=require("./app");
 

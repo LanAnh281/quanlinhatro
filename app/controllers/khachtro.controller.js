@@ -1,6 +1,10 @@
 const ApiError = require("../api_error");
 const con = require("../util/mysql.util");
 
+const express = require('express');
+const app = express();
+const Resize = require('./Resize');
+const upload = require('./uploadMiddleware');
 //Lấy ds khách hàng
 exports.layTK = (req, res, next) => {
   let myquery =
@@ -27,12 +31,13 @@ exports.lay1TK = (req, res, next) => {
 };
 // tạo tài khoản khách trọ
 exports.taoTK = (req, res, next) => {
+  console.log("req.data.name:",req.data.name);
   let newpass = "select randompassword ();";
   let taotk =
     "INSERT INTO `qlnhatro`.`taikhoan` (`matk`, `matkhau`, `quyen`,`handung`,`mk`) VALUES ( (select newTK()), md5(?), '0','1',?);";
   let themTK =
-    "INSERT INTO `qlnhatro`.`khachhang` (`STT`, `sdt`, `cccd`, `hoten`, `nghenghiep`, `quequan`) VALUES (?, ?, ?, ?, ?, ?);";
-
+    "INSERT INTO `qlnhatro`.`khachhang` (`STT`, `sdt`, `cccd`, `hoten`, `nghenghiep`, `quequan`,`anhCCCD`) VALUES (?, ?, ?, ?, ?, ?,?);";
+  
   try {
     con.query(newpass, function (err, result, field) {
       console.log(Object.values(result[0]));
@@ -46,14 +51,16 @@ exports.taoTK = (req, res, next) => {
           req.body.hoten,
           req.body.nghenghiep,
           req.body.quequan,
+          req.data.name
         ]);
         
-        return res.json({
-        "pass":Object.values(result[0]),
-        message:"Thành công",
-        "ID":"MS"+lastID,
-        "STT":lastID
-      })
+        return res.redirect('http://localhost:3001/khachhang')
+      //  res.json({
+      //   "pass":Object.values(result[0]),
+      //   message:"Thành công",
+      //   "ID":"MS"+lastID,
+      //   "STT":lastID
+      // })
       });
       
     });
@@ -105,6 +112,19 @@ exports.xoaTK = (req, res, next) => {
         });
       }
     );
+  } catch (error) {
+    return new ApiError(500, "Kết nối với tài khoản thất bại");
+  }
+};
+//lấy khách trọ 
+exports.layKT = (req, res, next) => {
+  
+  let myquery =
+    "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0' and kh.stt=? and handung='1';";
+  try {
+    con.query(myquery, req.data.STT,function (err, results) {
+      return res.json(Object(results[0]));
+    });
   } catch (error) {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }

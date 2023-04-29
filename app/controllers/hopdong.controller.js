@@ -11,7 +11,7 @@ exports.checkDN = async (req, res, next) => {
 // Lấy ds hợp đồng
 exports.layDSHD = (req, res, next) => {
 
-  let myquery =   `select mahd,hd.maphong,p.tenphong,kh.STT,hoten, date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt
+  let myquery =   `select mahd,hd.maphong,p.tenphong,kh.STT,hoten, date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt, month(ngaykt) as thangkt,date(ngaykt) as ngaykthuc  
   from hopdong hd join khachhang kh on hd.stt_tk =kh.stt
   join phong p on p.maphong=hd.maphong;`;
   try {
@@ -65,7 +65,10 @@ exports.xoaHD=(req,res,next)=>{
 }
 //lấy 1 hợp đồng
 exports.layHD = (req, res, next) => {
-  let myquery = "select  maphong,stt_tro,stt_tk, mahd,date_format(ngaybd,'%Y-%m-%d')as ngaybd ,date_format(ngaykt,'%Y-%m-%d')  as ngaykt from hopdong where mahd=?;";
+  let myquery = `select  mahd,maphong,tenphong,STT,hoten, 
+  date_format(ngaybd,'%Y-%m-%d')as ngaybd ,
+  date_format(ngaykt,'%Y-%m-%d')  as ngaykt 
+  from hopdong where mahd=?;`;
   try {
     con.query(myquery, req.params.mahd, (err, result, fields) => {
       if (err) throw err.stack;
@@ -86,6 +89,44 @@ exports.chinhsuahd=(req,res,next)=>{
         req.body.ngaybd,
         req.body.ngaykt,
         req.params.mahd],
+      function (err,results,field) {
+        if(err) throw err.stack;
+        res.json({message:'Cập nhật hợp đồng'});
+      })
+  } catch (error) {
+    return new ApiError (500,'không kết nối với hợp đống');
+  }
+}
+//layhdtheokhach
+exports.layhdtheokhach = (req, res, next) => {
+  let myquery = ` select mahd,hd.maphong,p.tenphong,kh.STT,hoten,
+  date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt, month(ngaykt) as thangkt  from hopdong hd join khachhang kh on hd.stt_tk =kh.stt
+  join phong p on p.maphong=hd.maphong where hd.stt_tk=?;`;
+  try {
+    con.query(myquery, req.data.STT, (err, result, fields) => {
+      if (err) throw err.stack;
+      console.log(result[result.length-1]);
+      return res.send(Object(result[result.length-1]));
+    });
+  } catch (error) {
+    return new ApiError(500, "Kết nối thất bại đến hợp đồng");
+  }
+};
+//chỉnh sửa hợp đồng khi khách xóa ng dùng
+exports.chinhsuahdtheokhach=(req,res,next)=>{
+  var today = new Date();
+  today =
+    today.getFullYear() +
+    "-" +
+    ("0" + (today.getMonth() + 1)).slice(-2) +
+    "-" +
+    (today.getDate()-1);
+  let myquery="UPDATE `qlnhatro`.`hopdong` SET `ngaykt` = ? WHERE (`stt_tk` = ?);";
+  try {
+    con.query(myquery,
+      [
+        today,
+        req.body.STT],
       function (err,results,field) {
         if(err) throw err.stack;
         res.json({message:'Cập nhật hợp đồng'});
