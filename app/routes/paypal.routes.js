@@ -4,9 +4,10 @@ const paypal=require('../controllers/paypal.controller');
 router.route('/')
     .get(paypal.hien)
     .post(paypal.taopaypal);
+
 router.route('/success')
-.get(paypal.thanhcong);
+        .get(paypal.thanhcong);
 router.route('/cancel')
-.get(paypal.thatbai);
+    .get(paypal.thatbai);
 
 module.exports=router;

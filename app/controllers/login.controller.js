@@ -62,7 +62,7 @@ exports.KTDN = async (req, res, next) => {
       })
     }
     req.data=Object(TTTK[0]);
-    console.log(req.data);
+    // console.log(req.data);
     next();
   }else {
     return res.json({

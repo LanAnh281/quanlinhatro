@@ -137,6 +137,7 @@ exports.xoaHD = (req, res, next) => {
 //lấy hóa đơn theo phòng trọ của khách
 exports.layHDK =(req,res,next)=>{
   let myquery = `select * from hoadon where maphong=? and trangthai='chưa thanh toán';`;
+  console.log("mã phòng",req.body.maphong);
   try {
     con.query(myquery,[req.body.maphong], function(err,result,field){
       if(err) throw err.stack;

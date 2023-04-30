@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 exports.checkDN = async (req, res, next) => {
   req.cookies.token;
   var token = await req.cookies.token;
-  console.log(token);
+  // console.log(token);
 };
 
 // Lấy ds hợp đồng
@@ -25,12 +25,10 @@ exports.layDSHD = (req, res, next) => {
 };
 //Thêm hợp đồng mới
 exports.themHD = async (req, res, next) => {
-  console.log("mã tài khoản:",req.body.matk);
   let layTK = `select STT from taikhoan where matk=?;`;
   let themhd =`INSERT INTO hopdong (maphong, stt_tk, stt_tro, ngaybd, ngaykt) VALUES (?,?,?,?,?);`;
   let token = req.cookies.token;
   let kq = await jwt.verify(token, "password");
-  console.log('tài khoản chủ :',kq.STT);
   taikhoanKhach = await con
     .promise()
     .query(layTK, req.body.matk)
@@ -40,11 +38,9 @@ exports.themHD = async (req, res, next) => {
     .catch((err) => {
       return err;
     });
-    console.log('tài khoản khách',taikhoanKhach);
   
   try {
     con.query(themhd,[req.body.maphong,taikhoanKhach[0].STT,kq.STT,req.body.ngaybd,req.body.ngaykt],function(err,results,field){
-      console.log('thêm hợp đồng');
       res.json({message:"thêm hợp đồng"});
     })
   } catch (error) {
@@ -107,7 +103,6 @@ exports.layhdtheokhach = (req, res, next) => {
   try {
     con.query(myquery, req.data.STT, (err, result, fields) => {
       if (err) throw err.stack;
-      console.log(result[result.length-1]);
       return res.send(Object(result[result.length-1]));
     });
   } catch (error) {

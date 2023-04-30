@@ -17,7 +17,7 @@ exports.taopaypal=(req, res,next) => {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://localhost:3001/api/paypal/success",
+            "return_url": `http://localhost:3000/api/paypal/success?tongtien=${req.body.tongtien}&mahd=${req.body.mahd}`,
             "cancel_url": "http://localhost:3000/api/paypal/cancel"
         },
         "transactions": [{
@@ -25,14 +25,14 @@ exports.taopaypal=(req, res,next) => {
                 "items": [{
                     "name": "Iphone 4S",
                     "sku": "001",
-                    "price": "25.00",
+                    "price": `${req.body.tongtien}`,
                     "currency": "USD",
                     "quantity": 1
                 }]
             },
             "amount": {
                 "currency": "USD",
-                "total": "25.00"
+                "total": `${req.body.tongtien}`
             },
             "description": "Iphone 4S cũ giá siêu rẻ"
         }]
@@ -51,7 +51,7 @@ exports.taopaypal=(req, res,next) => {
     })
 }
 exports.thanhcong= (req, res) => {
-
+    console.log(req.query.tongtien);
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
 
@@ -60,7 +60,7 @@ exports.thanhcong= (req, res) => {
         "transactions": [{
             "amount": {
                 "currency": "USD",
-                "total": "25.00"
+                "total": `${req.query.tongtien}`
             }
         }]
     };
@@ -72,7 +72,7 @@ exports.thanhcong= (req, res) => {
             console.log(JSON.stringify(payment));
             // res.send('Success (Mua hàng thành công)');
             res.writeHead(302, {
-                'Location': 'http://localhost:3001/user/hoadon'
+                'Location': `http://localhost:3001/user/hoadon?trangthai=1&mahd=${req.query.mahd}`
                 //add other headers here...
               });
               res.end();
