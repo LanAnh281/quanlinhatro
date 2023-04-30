@@ -11,7 +11,7 @@ exports.checkDN = async (req, res, next) => {
 // Lấy ds hợp đồng
 exports.layDSHD = (req, res, next) => {
 
-  let myquery =   `select mahd,hd.maphong,p.tenphong,kh.STT,hoten, date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt, month(ngaykt) as thangkt,date(ngaykt) as ngaykthuc  
+  let myquery =   `select mahd,hd.maphong,p.tenphong,kh.STT,hoten, date_format(ngaylap,'%d-%m-%Y') as ngaylap,date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt, month(ngaykt) as thangkt,date(ngaykt) as ngaykthuc  
   from hopdong hd join khachhang kh on hd.stt_tk =kh.stt
   join phong p on p.maphong=hd.maphong;`;
   try {
@@ -66,6 +66,7 @@ exports.xoaHD=(req,res,next)=>{
 //lấy 1 hợp đồng
 exports.layHD = (req, res, next) => {
   let myquery = `select  mahd,maphong,tenphong,STT,hoten, 
+  date_format(ngaylap,'%d-%m-%Y') as ngaylap
   date_format(ngaybd,'%Y-%m-%d')as ngaybd ,
   date_format(ngaykt,'%Y-%m-%d')  as ngaykt 
   from hopdong where mahd=?;`;
@@ -100,6 +101,7 @@ exports.chinhsuahd=(req,res,next)=>{
 //layhdtheokhach
 exports.layhdtheokhach = (req, res, next) => {
   let myquery = ` select mahd,hd.maphong,p.tenphong,kh.STT,hoten,
+  date_format(ngaylap,'%d-%m-%Y') as ngaylap,
   date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt, month(ngaykt) as thangkt  from hopdong hd join khachhang kh on hd.stt_tk =kh.stt
   join phong p on p.maphong=hd.maphong where hd.stt_tk=?;`;
   try {

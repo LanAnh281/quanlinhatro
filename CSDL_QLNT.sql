@@ -20,7 +20,7 @@ create table NHATRO(
     foreign key (stt) references TAIKHOAN(stt),
     primary key (stt)
 );
-
+alter table nhatro add column cccd char(12);
 create table KHACHHANG(
     STT int,
 	sdt char(10) not null,
@@ -110,6 +110,7 @@ create table HOPDONG(
     foreign key  (stt_tro) references nhatro(stt)
     
 );
+alter table hopdong add column ngaylap date;
 
 
 create table PHIEUGIAHAN(

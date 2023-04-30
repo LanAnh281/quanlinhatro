@@ -7,7 +7,7 @@ router.route('/')
         .get(hopdong.layDSHD)
         .put(hopdong.chinhsuahdtheokhach)
         .post(hopdong.themHD);
-router.route('/khach')
+router.route('/hd/khach')
         .get([login.KTDN,hopdong.layhdtheokhach])
         
 router.route('/:mahd')
