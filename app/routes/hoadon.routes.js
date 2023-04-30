@@ -10,6 +10,8 @@ router.route('/:mahd')
         .get(hoadon.layHD)  
         .put(hoadon.chinhsuaHDTheoKHTheoThang)
         .delete(hoadon.xoaHD);
+router.route('/hd/khach')
+        .get(hoadon.layHDK);
         
 
 module.exports=router;

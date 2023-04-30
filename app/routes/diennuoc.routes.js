@@ -9,8 +9,8 @@ router.route('/')
     .put(dien_nuoc.chinhsuaDN);
 
 router.route('/:maphong')
-        .get(dien_nuoc.layDSDN)
-        .post(dien_nuoc.layDN)
+        .get(dien_nuoc.layDN)
+        // .post(dien_nuoc.layDN)
         .delete(dien_nuoc.xoaDN);
 router.route('/thongke/:nam')
     .get(dien_nuoc.thongke);

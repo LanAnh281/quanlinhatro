@@ -134,5 +134,17 @@ exports.xoaHD = (req, res, next) => {
   }
 };
 
+//lấy hóa đơn theo phòng trọ của khách
+exports.layHDK =(req,res,next)=>{
+  let myquery = `select * from hoadon where maphong=? and trangthai='chưa thanh toán';`;
+  try {
+    con.query(myquery,[req.body.maphong], function(err,result,field){
+      if(err) throw err.stack;
+      return res.send(result);
+    })
+  } catch (error) {
+    return new ApiError(500,'Không kết nối đến hóa đơn');
+  }
+}
 
 

@@ -3,7 +3,12 @@ const ApiError = require("../api_error");
 
 //Lấy thông tin giá điện
 exports.layDSDN = (req, res, next) => {
-  let myquery = "select * from dien_nuoc";
+  let myquery = `select maphong,
+  date_format(thoigianghi,'%Y-%m-%d') as thoigianghi ,
+  dienchisocu,
+  dienchisomoi,
+  nuocchisocu,
+  nuocchisomoi from dien_nuoc`;
   try {
     con.query(myquery, function (err, result, fields) {
       if (err) throw err.stack;
@@ -49,13 +54,20 @@ exports.themDN = (req, res, next) => {
 //Lây điện nước của 1 phòng
 exports.layDN = (req, res, next) => {
   let myquery =
-    "select * from dien_nuoc where maphong=? and month(thoigianghi)=? and year(thoigianghi)=?;";
-  try {
+    `select maphong,
+    date_format(thoigianghi,'%Y-%m-%d') as thoigianghi ,
+    dienchisocu,
+    dienchisomoi,
+    nuocchisocu,
+    nuocchisomoi  from dien_nuoc where maphong=? ;`;
+  console.log(req.body);
+    try {
     con.query(
       myquery,
-      [req.params.maphong, req.body.thang, req.body.nam],
+      [req.params.maphong],
       function (err, result, fields) {
         if (err) throw err.stack;
+        console.log(result);
         return res.send(result);
       }
     );
@@ -65,11 +77,11 @@ exports.layDN = (req, res, next) => {
 };
 // chỉnh sửa giá điện nước
 exports.chinhsuaDN = (req, res, next) => {
-  let myquery = `UPDATE dien_nuoc SET thoigianghi=?,dienchisocu = ?,dienchisomoi = ?, nuocchisocu = ?,nuocchisomoi = ? WHERE (maphong = ?) and (month(thoigianghi))=? and (year(thoigianghi))=?;`;
+  let myquery =
+ "UPDATE `qlnhatro`.`dien_nuoc` SET `thoigianghi` =?,`dienchisocu` = ?,`dienchisomoi` = ?, `nuocchisocu` = ?, `nuocchisomoi` = ? WHERE (`maphong` = ?) and (`thoigianghi` = ?);";
   var today = new Date();
   var date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-
   try {
     con.query(
       myquery,
@@ -80,8 +92,7 @@ exports.chinhsuaDN = (req, res, next) => {
         req.body.nuocchisocu,
         req.body.nuocmoi,
         req.body.maphong,
-        req.body.thang,
-        req.body.nam,
+        req.body.thoigianghi,
       ],
       function (err, result, fields) {
         if (err) throw err.stack;

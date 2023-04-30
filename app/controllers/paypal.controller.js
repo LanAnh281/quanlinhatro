@@ -72,7 +72,7 @@ exports.thanhcong= (req, res) => {
             console.log(JSON.stringify(payment));
             // res.send('Success (Mua hàng thành công)');
             res.writeHead(302, {
-                'Location': 'http://localhost:3001/admin'
+                'Location': 'http://localhost:3001/user/hoadon'
                 //add other headers here...
               });
               res.end();
@@ -81,7 +81,7 @@ exports.thanhcong= (req, res) => {
 }
 exports.thatbai=(req,res) => {
     res.writeHead(302, {
-        'Location': 'http://localhost:3001/loaiphong'
+        'Location': 'http://localhost:3001/user/hoadon'
         
       });
       res.end();
