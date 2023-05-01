@@ -19,11 +19,13 @@ exports.layDS=(req,res,next)=>{
 }
 //tạo phiếu gia hạn
 exports.taophieu=(req,res,next)=>{
+    console.log("phiếu gia hạn STT Khách:", req.data.STT);
+    console.log("phiếu gia hạn body:", req.body);
     let myquery="INSERT INTO `qlnhatro`.`phieugiahan` (`stt_kh`, `ngaybd`, `ngaykt`,`trangthai`) VALUES (?, ?, ?,'0');";
     try {
         con.query(myquery,
             [
-                req.params.sotk,
+                req.data.STT,
                 req.body.ngaybd,
                 req.body.ngaykt
             ],
@@ -48,11 +50,11 @@ exports.chinhsua=(req,res,next)=>{
         return new ApiError(500,'Kết nối phiếu gia hạn thất bại');
     }
 }
-//Lay ds phiếu theo sotk
+//Lay ds phiếu theo req.data.STT (token)
 exports.layDSPhieu=(req,res,next)=>{
-    let myquery="select * from phieugiahan where stt_kh=?";
+    let myquery="select date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt,maphieu,trangthai from phieugiahan where stt_kh=?";
     try {
-        con.query(myquery,req.params.sotk,function(err, result,filters){
+        con.query(myquery,req.data.STT,function(err, result,filters){
             if(err) throw err.stack;
             return res.send(result);
         })
@@ -65,7 +67,7 @@ exports.xoaPhieu=(req,res,next)=>{
     let myquery= "DELETE FROM `qlnhatro`.`phieugiahan` WHERE (`maphieu` = ?);";
 
     try {
-        con.query(myquery,req.query.maphieu,(err,result,filters)=>{
+        con.query(myquery,req.params.maphieu,(err,result,filters)=>{
             if(err) throw err.stack;
             return res.send("xóa thành công phiếu");
         })
