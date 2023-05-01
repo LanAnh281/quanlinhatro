@@ -17,7 +17,7 @@ exports.layTK = (req, res, next) => {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
-//Lấy chi tiết của 1 tài khoản
+//Lấy chi tiết của 1 khách trọ
 exports.lay1TK = (req, res, next) => {
   let myquery =
     "select * from taikhoan tk join khachhang kh on tk.stt=kh.stt where quyen='0' and kh.stt=? and handung='1';";
@@ -31,7 +31,7 @@ exports.lay1TK = (req, res, next) => {
 };
 // tạo tài khoản khách trọ
 exports.taoTK = (req, res, next) => {
-  console.log("req.data.name:",req.data.name);
+  // console.log("req.data.name:",req.data.name);
   let newpass = "select randompassword ();";
   let taotk =
     "INSERT INTO `qlnhatro`.`taikhoan` (`matk`, `matkhau`, `quyen`,`handung`,`mk`) VALUES ( (select newTK()), md5(?), '0','1',?);";
@@ -54,13 +54,13 @@ exports.taoTK = (req, res, next) => {
           req.data.name
         ]);
         
-        return res.redirect('http://localhost:3001/khachhang')
-      //  res.json({
-      //   "pass":Object.values(result[0]),
-      //   message:"Thành công",
-      //   "ID":"MS"+lastID,
-      //   "STT":lastID
-      // })
+        // return res.redirect('http://localhost:3001/khachhang')
+       res.json({
+        "pass":Object.values(result[0]),
+        message:"Thành công",
+        "ID":"MS"+lastID,
+        "STT":lastID
+      })
       });
       
     });
@@ -73,7 +73,7 @@ exports.taoTK = (req, res, next) => {
 // chỉnh sửa 1  khach tro
 exports.chinhsuaTK = (req, res, next) => {
   let chinhsuaTK =
-    "UPDATE `qlnhatro`.`khachhang` SET `sdt`=?, `cccd` = ?, `hoten` = ?, `nghenghiep` = ?, `quequan` = ? WHERE (`STT` = ?);";
+    "UPDATE `qlnhatro`.`khachhang` SET `sdt`=?, `cccd` = ?, `hoten` = ?, `nghenghiep` = ?, `quequan` = ?,  `anhcccd`=? WHERE (`STT` = ?);";
   try {
     con.query(
       chinhsuaTK,
@@ -83,6 +83,7 @@ exports.chinhsuaTK = (req, res, next) => {
         req.body.hoten,
         req.body.nghenghiep,
         req.body.quequan,
+        req.data.name,
         req.params.sotk,
       ],
       function (err, results, fields) {
@@ -125,6 +126,34 @@ exports.layKT = (req, res, next) => {
     con.query(myquery, req.data.STT,function (err, results) {
       return res.json(Object(results[0]));
     });
+  } catch (error) {
+    return new ApiError(500, "Kết nối với tài khoản thất bại");
+  }
+};
+//chỉnh sửa k ảnh
+exports.chinhsuaKhongAnhTK = (req, res, next) => {
+  
+  let chinhsuaTK =
+    "UPDATE `qlnhatro`.`khachhang` SET `sdt`=?, `cccd` = ?, `hoten` = ?, `nghenghiep` = ?, `quequan` = ? WHERE (`STT` = ?);";
+  try {
+    con.query(
+      chinhsuaTK,
+      [
+        req.body.sdt,
+        req.body.cccd,
+        req.body.hoten,
+        req.body.nghenghiep,
+        req.body.quequan,
+       
+        req.params.sotk,
+      ],
+      function (err, results, fields) {
+        if (err) throw err.stack;
+        return res.json({
+          chinhsua:"capnhat thanhcong"
+        });
+      }
+    );
   } catch (error) {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }

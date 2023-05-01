@@ -13,8 +13,10 @@ exports.layDSHD = (req, res, next) => {
 
   let myquery =   `select mahd,hd.maphong,p.tenphong,kh.STT,hoten, 
 
-  date_format(ngaylap,'%d-%m-%Y') as ngaylap,date_format(ngaybd,'%d-%m-%Y') as ngaybd,date_format(ngaykt,'%d-%m-%Y') as ngaykt, 
-  month(ngaykt) as thangkt,date(ngaykt) as ngaykthuc  
+  date_format(ngaylap,'%d-%m-%Y') as ngaylap,
+  date_format(ngaybd,'%d-%m-%Y') as ngaybd,
+  date_format(ngaykt,'%d-%m-%Y') as ngaykt, 
+  month(ngaykt) as thangkt,day(ngaykt) as ngaykthuc  
   from hopdong hd join khachhang kh on hd.stt_tk =kh.stt
   join phong p on p.maphong=hd.maphong;`;
   try {
@@ -29,7 +31,13 @@ exports.layDSHD = (req, res, next) => {
 //Thêm hợp đồng mới
 exports.themHD = async (req, res, next) => {
   let layTK = `select STT from taikhoan where matk=?;`;
-  let themhd =`INSERT INTO hopdong (maphong, stt_tk, stt_tro, ngaybd, ngaykt) VALUES (?,?,?,?,?);`;
+  let themhd =`INSERT INTO hopdong (maphong, stt_tk, stt_tro, ngaybd, ngaykt,ngaylap) VALUES (?,?,?,?,?,?);`;
+
+  var today=new Date();
+  var ngaylap =
+  today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+
+
   let token = req.cookies.token;
   let kq = await jwt.verify(token, "password");
   taikhoanKhach = await con
@@ -43,7 +51,7 @@ exports.themHD = async (req, res, next) => {
     });
   
   try {
-    con.query(themhd,[req.body.maphong,taikhoanKhach[0].STT,kq.STT,req.body.ngaybd,req.body.ngaykt],function(err,results,field){
+    con.query(themhd,[req.body.maphong,taikhoanKhach[0].STT,kq.STT,req.body.ngaybd,req.body.ngaykt,ngaylap],function(err,results,field){
       res.json({message:"thêm hợp đồng"});
     })
   } catch (error) {
@@ -109,6 +117,7 @@ exports.layhdtheokhach = (req, res, next) => {
     con.query(myquery, req.data.STT, (err, result, fields) => {
       if (err) throw err.stack;
       return res.send(Object(result[result.length-1]));
+      /* sau này sẽ mở rộng 1 người thuê nhiều phòng */ 
     });
   } catch (error) {
     return new ApiError(500, "Kết nối thất bại đến hợp đồng");

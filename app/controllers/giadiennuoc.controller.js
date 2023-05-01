@@ -34,3 +34,17 @@ exports.themTT= (req,res,next)=>{
         return new ApiError(500,'Không kết nối với điện nước');
     }
 }
+//chỉnh sửa
+exports.chinhsuaTT= (req,res,next)=>{
+    let myquery="UPDATE `qlnhatro`.`giadien_nuoc` SET `giadien` = ?, `gianuoc` = ? WHERE (`thoidiem` = '2023-04-28 00:00:00');";
+    try {
+        con.query(myquery,
+            [req.body.giadien,req.body.gianuoc],
+            function(err,result, field){
+            if(err) throw err.stack;
+            return res.send('Thêm giá điện nước thành công');
+        })
+    } catch (error) {
+        return new ApiError(500,'Không kết nối với điện nước');
+    }
+}

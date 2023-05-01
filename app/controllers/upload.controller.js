@@ -11,7 +11,7 @@ exports.hienthi=async function (req, res,next) {
     await res.render('index');
 };
 exports.uploadImg =async function (req, res,next) {
-    console.log("file",req.file);
+    // console.log("file",req.file);
     // folder upload
     const imagePath = path.join('NienLuan','..', '/public/images');
     // call class Resize
@@ -22,7 +22,7 @@ exports.uploadImg =async function (req, res,next) {
     const filename = await fileUpload.save(req.file.buffer);
     // console.log("file upload :",filename)
     req.data={ name: filename };
-    console.log("tên file",req.data.name);
+    // console.log("tên file",req.data.name);
     next();
     // return res.status(200).json({ name: filename });
 }
@@ -31,7 +31,7 @@ exports.getImg= async function (req, res) {
     // console.log("req.data.name:",req.data.name);
     
     const imagePath = path.join(__dirname,'..','..' ,'/public/images',`${req.params.id}`);
-    console.log(imagePath);
+    // console.log(imagePath);
     res.sendFile(imagePath);
  
 }

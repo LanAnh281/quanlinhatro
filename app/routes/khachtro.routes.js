@@ -11,13 +11,13 @@ router.route('/')
 router.route('/khach')
             .get([login.KTDN,taikhoan.layKT]);
 
-            
-
-
 router.route('/:sotk')
             .get(taikhoan.lay1TK)
-            .put(taikhoan.chinhsuaTK)
+            .put([upload.single('anhcccd'),uploadController.uploadImg,taikhoan.chinhsuaTK])
             .delete(taikhoan.xoaTK);
+
+router.route('/khonganh/:sotk')
+            .put(taikhoan.chinhsuaKhongAnhTK)
 
             
 module.exports=router;
