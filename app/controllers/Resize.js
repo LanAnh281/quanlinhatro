@@ -15,7 +15,7 @@ class Resize {
     const filepath = this.filepath(filename);
 
     await sharp(buffer)
-      .resize(200, 200, { // size image 300x300
+      .resize(150, 150, { // size image 300x300
         fit: sharp.fit.inside,
         withoutEnlargement: true
       })
