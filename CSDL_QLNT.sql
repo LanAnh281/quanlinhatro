@@ -123,4 +123,3 @@ create table PHIEUGIAHAN(
 alter table phieugiahan add column trangthai char(1);
 
 
-
