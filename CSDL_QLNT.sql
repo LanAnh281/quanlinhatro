@@ -1,4 +1,4 @@
-drop database QLNHATRO;
+
 create database QLNHATRO;
 use QLNHATRO;
 
