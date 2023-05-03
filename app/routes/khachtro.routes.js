@@ -19,5 +19,6 @@ router.route('/:sotk')
 router.route('/khonganh/:sotk')
             .put(taikhoan.chinhsuaKhongAnhTK)
 
-            
+router.route('/timkiem')
+    .post(taikhoan.timkiem);            
 module.exports=router;

@@ -158,3 +158,17 @@ exports.chinhsuaKhongAnhTK = (req, res, next) => {
     return new ApiError(500, "Kết nối với tài khoản thất bại");
   }
 };
+
+//tìm kiếm khách hàng
+exports.timkiem=(req,res)=>{
+  let myquery=`select * from khachhang where hoten like "%"?"%";`;
+  console.log(req.body);
+  try {
+    con.query(myquery,req.body.hoten,function(err,result){
+      if(err) throw err.stack;
+      return res.send(result);
+    })
+  } catch (error) {
+    res.send("Lỗi");
+  }
+}
