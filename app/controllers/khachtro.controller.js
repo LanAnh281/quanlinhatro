@@ -132,10 +132,12 @@ exports.layKT = (req, res, next) => {
 };
 //chỉnh sửa k ảnh
 exports.chinhsuaKhongAnhTK = (req, res, next) => {
-  
-  let chinhsuaTK =
-    "UPDATE `qlnhatro`.`khachhang` SET `sdt`=?, `cccd` = ?, `hoten` = ?, `nghenghiep` = ?, `quequan` = ? WHERE (`STT` = ?);";
-  try {
+  // console.log("req.body:",req.body);
+  let chinhsuaTK =`
+  UPDATE khachhang SET sdt=?, 
+  cccd = ?, hoten = ?, nghenghiep = ?, 
+  quequan = ? WHERE (STT = ?);`;
+    try {
     con.query(
       chinhsuaTK,
       [
@@ -144,7 +146,6 @@ exports.chinhsuaKhongAnhTK = (req, res, next) => {
         req.body.hoten,
         req.body.nghenghiep,
         req.body.quequan,
-       
         req.params.sotk,
       ],
       function (err, results, fields) {

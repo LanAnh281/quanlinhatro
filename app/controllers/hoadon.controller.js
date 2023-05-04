@@ -53,7 +53,7 @@ exports.layHD =(req,res,next)=>{
 exports.taoHD = (req, res, next) => {
   console.log("BODY:",req.body);
   let themHD =
-    "INSERT INTO `qlnhatro`.`hoadon` (`thang`, `maphong`, `tongtien`, `trangthai`,`nam` ) VALUES (?, ?, ?, 'chưa thanh toán',?);";
+    "INSERT INTO `qlnhatro`.`hoadon` (`thang`, `maphong`, `tongtien`, `trangthai`,`nam` ) VALUES (?, ?, ?, 'Chưa thanh toán',?);";
   var today= new Date;
 
   try {
